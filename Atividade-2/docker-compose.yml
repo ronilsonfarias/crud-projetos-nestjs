@@ -1,0 +1,18 @@
+# Sobe APENAS o frontend (React) em container.
+#
+# O BACKEND roda localmente na sua máquina (fora do Docker):
+#     cd backend-inicial && npm install && npm run dev   # porta 3000
+#
+# O container do frontend serve a interface e encaminha /api para o seu
+# backend local através de host.docker.internal:3000 (veja frontend/nginx.conf).
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: web2-todo-frontend
+    ports:
+      - "5173:80"
+    # Garante que host.docker.internal funcione também no Docker em Linux.
+    # (No Docker Desktop do Windows/macOS já funciona por padrão.)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
