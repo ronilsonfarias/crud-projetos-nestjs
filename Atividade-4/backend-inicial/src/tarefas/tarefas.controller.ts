@@ -8,12 +8,15 @@ import {
   Param,
   Body,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 
 import { TarefasService } from './tarefas.service';
 import { Tarefa } from './entities/tarefa.entity';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('tarefas')
+@UseGuards(JwtAuthGuard)
 export class TarefasController {
   constructor(private readonly tarefasService: TarefasService) {}
 
@@ -45,4 +48,3 @@ export class TarefasController {
     return this.tarefasService.remove(id);
   }
 }
-

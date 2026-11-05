@@ -1,13 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 
-@Entity('users')
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor() {
+    super({
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: any) => {
+          return request?.cookies?.access_token ?? null;
+        },
+      ]),
+      ignoreExpiration: false,
+      secretOrKey:
+        process.env.JWT_SECRET ||
+        'chave-secreta-pweb2-altere-em-producao',
+    });
+  }
 
-  @Column({ unique: true })
-  email: string;
-
-  @Column()
-  password: string;
+  async validate(payload: { sub: number; email: string }) {
+    return {
+      userId: payload.sub,
+      email: payload.email,
+    };
+  }
 }
