@@ -1,0 +1,26 @@
+# ==========================================================================
+# .gitignore — Aula 04 (To-Do List / Introdução a API REST)
+# ==========================================================================
+
+# Gabarito do backend da AULA ATUAL: NÃO vai para o repositório ainda.
+# (O gabarito de aulas já realizadas pode ser versionado normalmente.)
+aula_02-10/backend-final/
+
+# Material do professor (mantido fora do repositório dos alunos).
+ROTEIRO-AULA.md
+*.pdf
+
+# Dependências (recriadas com `npm install`).
+node_modules/
+
+# Build do frontend (Vite).
+dist/
+.vite/
+
+# Logs
+npm-debug.log*
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
