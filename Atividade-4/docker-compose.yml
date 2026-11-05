@@ -1,0 +1,31 @@
+# Sobe APENAS o frontend (React) em container.
+#
+# O BACKEND (NestJS) roda localmente na sua máquina (fora do Docker):
+#   cd backend-inicial && npm install && npm run start:dev  # porta 3000
+#
+# O container do frontend serve a interface e encaminha /api para o seu
+# backend local através de host.docker.internal:3000 (veja frontend/nginx.conf).
+services:
+  frontend:
+    build: ./frontend
+    container_name: web2-todo-nest-frontend
+    ports:
+      - "5173:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db:
+    image: postgres:16-alpine
+    container_name: web2-todo-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tarefas
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
